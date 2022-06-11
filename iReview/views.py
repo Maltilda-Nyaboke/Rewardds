@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from .forms import RegisterForm
-from django.contrib.auth import login,authenticate
+from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.forms import UserCreationForm
 
 # Create your views here.
@@ -21,4 +21,19 @@ def register(request):
 
 
 def login(request):
-    return render(request,'/register/login.html')      
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect(request,'index.html')
+        else:
+            return render(request,'/registration/login.html')  
+    else:
+        return render(request,'/registration/login.html')        
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')         
+
