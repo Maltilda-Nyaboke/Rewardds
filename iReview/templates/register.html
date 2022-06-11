@@ -3,8 +3,9 @@
 {% block content %}
 <h3>Create an Account</h3>
 <form action="" method="POST">
+    {% csrf_token %}
     {{form}}
-<button type="button" class="btn btn-dark">Dark</button>
+<button type="submit" class="btn btn-dark">Register</button>
 
 </form>
 {% endblock %}
