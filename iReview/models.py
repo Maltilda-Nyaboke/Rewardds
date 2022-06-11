@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     profile_photo = models.ImageField(upload_to='media')
     bio = models.TextField()
-    projects = models.ForeignKey()
+    projects = models.ForeignKey(User,on_delete=models.CASCADE,related_name='projects',null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')
 
     def __str__(self):
