@@ -17,4 +17,8 @@ def register(request):
             return redirect('index.html')
     else:        
         form = RegisterForm()
-    return render(request,'register.html',{'form':form})    
+    return render(request,'register.html',{'form':form})  
+
+
+def login(request):
+    return render(request,'/register/login.html')      
