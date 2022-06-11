@@ -35,5 +35,9 @@ def login(request):
 
 def logout_user(request):
     logout(request)
-    return redirect('login')         
+    return redirect('login')   
+
+
+def profile(request):
+    return render(request,'profile.html')          
 
