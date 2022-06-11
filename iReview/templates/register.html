@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <h3>Create an Account</h3>
 <form action="" method="POST">
     {% csrf_token %}
-    {{form}}
+    {{form|crispy}}
 <button type="submit" class="btn btn-dark">Register</button>
 
 </form>
