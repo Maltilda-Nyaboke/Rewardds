@@ -21,7 +21,7 @@ class Profile(models.Model):
 class Rating(models.Model):
     design = models.IntegerField(default=0)
     content = models.IntegerField(default=0)
-    usability = models.ForeignKey(default=0)
+    usability = models.IntegerField(default=0)
 
     def __str__(self):
         return self.content

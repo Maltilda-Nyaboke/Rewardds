@@ -48,7 +48,10 @@ def update_profile(request):
         form = UpdateProfileForm(request.POST)
         if form.is_valid():
             form.save()
-    return render(request,'update_profile.html',{'form':form})    
+            return redirect('profile.html')
+        else:
+            form = UpdateProfileForm()    
+        return render(request,'update_profile.html',{'form':form})    
 
 
 def new_project(request):
