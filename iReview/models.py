@@ -8,8 +8,8 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     profile_photo = models.ImageField(upload_to='media')
     bio = models.TextField()
-    projects = models.ForeignKey(User,on_delete=models.CASCADE,related_name='projects',null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE,related_name='profile')
+    contact = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return self.bio
@@ -19,4 +19,9 @@ class Profile(models.Model):
 
 
 class Rating(models.Model):
-    name = models.CharField(max_length=30)    
+    design = models.ForeignKey
+    content = models.ForeignKey
+    usability = models.ForeignKey 
+
+class Project(models.Model):
+          
