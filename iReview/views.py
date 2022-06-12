@@ -39,5 +39,9 @@ def logout_user(request):
 
 
 def profile(request):
-    return render(request,'profile.html')          
+    return render(request,'profile.html')   
+
+
+def new_project(request):
+    return render(request,'new_project.html')           
 
