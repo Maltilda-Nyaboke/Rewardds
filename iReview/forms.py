@@ -16,5 +16,9 @@ class RegisterForm(UserCreationForm):
 class AddProjectForm():
     model = Project
     class Meta:
-        fields = ['title','description','url']
+        fields = ['title','image','description','url']
 
+class UpdateProfileForm():
+    model = Profile
+    class Meta:
+        fields = ['profile_photo','bio']
