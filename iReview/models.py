@@ -24,4 +24,15 @@ class Rating(models.Model):
     usability = models.ForeignKey 
 
 class Project(models.Model):
-          
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
+    title = models.CharField(max_length=75, blank=False)
+    image = models.ImageField(null= False, blank=False)
+    description = models.TextField()
+    url = models.URLField()
+    posted = models.DateTimeField(auto_now_add=True)
+    rate = models.IntegerField(default=0)
+
+    def __str__(self):
+        return  self.title
+
+
