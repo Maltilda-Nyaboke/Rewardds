@@ -45,7 +45,9 @@ def profile(request):
 
 def update_profile(request):
     if request.method == 'POST':
-        form = UpdateProfileForm(request.POST)
+        user = request.user.id
+        form = UpdateProfileForm(request.POST,request.FILES)
+        profile = Profile.objects.get(user_id=user)
         if form.is_valid():
             form.save()
             return redirect('profile.html')
