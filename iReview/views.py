@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .forms import RegisterForm
+from .forms import RegisterForm,UpdateProfileForm
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.forms import UserCreationForm
 from .models import *
@@ -44,7 +44,11 @@ def profile(request):
     return render(request,'profile.html')   
 
 def update_profile(request):
-    return render(request,'update_profile.html')    
+    if request.method == 'POST':
+        form = UpdateProfileForm(request.POST)
+        if form.is_valid():
+            form.save()
+    return render(request,'update_profile.html',{'form':form})    
 
 
 def new_project(request):
