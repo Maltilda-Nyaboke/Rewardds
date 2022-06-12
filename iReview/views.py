@@ -2,10 +2,12 @@ from django.shortcuts import render,redirect
 from .forms import RegisterForm
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.forms import UserCreationForm
+from .models import *
 
 # Create your views here.
 
 def home(request):
+    project = Project.objects.all()
     return render(request,'index.html')
 
 
@@ -40,6 +42,9 @@ def logout_user(request):
 
 def profile(request):
     return render(request,'profile.html')   
+
+def update_profile(request):
+    return render(request,'update_profile.html')    
 
 
 def new_project(request):
