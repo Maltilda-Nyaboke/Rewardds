@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import ModelForm
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -13,12 +14,12 @@ class RegisterForm(UserCreationForm):
         model = User
         fields = ['username','email','password1', 'password2',]
 
-class AddProjectForm():
-    model = Project
+class AddProjectForm(ModelForm):
     class Meta:
+        model = Project
         fields = ['title','image','description','url']
 
-class UpdateProfileForm():
-    model = Profile
-    class Meta:
+class UpdateProfileForm(ModelForm):
+    class Meta():
+        model = Profile
         fields = ['profile_photo','bio']

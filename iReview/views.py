@@ -45,15 +45,13 @@ def profile(request):
 
 def update_profile(request):
     if request.method == 'POST':
-        user = request.user.id
-        form = UpdateProfileForm(request.POST,request.FILES)
-        profile = Profile.objects.get(user_id=user)
+        form = UpdateProfileForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('profile.html')
-        else:
-            form = UpdateProfileForm()    
-        return render(request,'update_profile.html',{'form':form})    
+            return redirect('profile')
+    else:
+        form = UpdateProfileForm()    
+    return render(request,'update_profile.html',{'form':form})    
 
 
 def new_project(request):
