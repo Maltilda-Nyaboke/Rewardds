@@ -19,9 +19,15 @@ class Profile(models.Model):
 
 
 class Rating(models.Model):
-    design = models.ForeignKey
-    content = models.ForeignKey
-    usability = models.ForeignKey 
+    design = models.IntegerField(default=0)
+    content = models.IntegerField(default=0)
+    usability = models.ForeignKey(default=0)
+
+    def __str__(self):
+        return self.content
+
+    def save_rating(self):
+        self.save()     
 
 class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
