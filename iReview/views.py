@@ -44,14 +44,34 @@ def profile(request):
     return render(request,'profile.html')   
 
 def update_profile(request):
+    form = UpdateProfileForm()
     if request.method == 'POST':
-        form = UpdateProfileForm(request.POST)
+        user = request.user.id
+        form = UpdateProfileForm(request.POST,request.FILES)
+        profile = Profile.objects.get(user_id=user)
         if form.is_valid():
-            form.save()
+            profile.profile_photo = form.cleaned_data.get('profile_photo')
+            profile.bio = form.cleaned_data.get('bio')
+            profile.save()
             return redirect('profile')
-    else:
-        form = UpdateProfileForm()    
+        else:
+            form = UpdateProfileForm()    
     return render(request,'update_profile.html',{'form':form})    
+
+def search_results(request):
+  form=AddProjectForm()
+  if 'search' in request.GET and request.GET['search']:
+    
+    title_search = request.GET.get('search')
+    print(title_search)
+    searched_projects = Project.search_by_title(title_search)
+  
+    message = f"{title_search}"
+    return render(request, 'search.html', {"message":message, "projects":searched_projects,"form":form})
+  else:
+    message = "You have not yet made a search"
+
+    return render(request, 'search.html', {"message":message})
 
 
 def new_project(request):
