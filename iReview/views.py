@@ -8,7 +8,7 @@ from .models import *
 
 def home(request):
     project = Project.objects.all()
-    return render(request,'index.html')
+    return render(request,'index.html',{'project':project})
 
 
 def register(request):
