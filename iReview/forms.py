@@ -22,4 +22,4 @@ class AddProjectForm(ModelForm):
 class UpdateProfileForm(ModelForm):
     class Meta():
         model = Profile
-        fields = ['profile_photo','bio']
+        fields = ['profile_photo','bio','contact']
