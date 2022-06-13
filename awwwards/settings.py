@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django.contrib.staticfiles',
     'iReview.apps.IreviewConfig',
-    
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
