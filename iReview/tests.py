@@ -35,3 +35,8 @@ class ProjectTestCase(TestCase):
     def test_update(self):
         self.user.save()
         self.project.save_project()   
+
+    def test_delete(self):
+        self.user.save()
+        self.project.save_project()
+        self.rate.save_rating()
