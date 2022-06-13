@@ -41,6 +41,9 @@ def logout_user(request):
 
 
 def profile(request):
+    user = request.user.pk
+    profile = Profile.objects.all()
+    profile_image = Profile.objects.filter(user=request.user.pk)
     return render(request,'profile.html')   
 
 def update_profile(request):

@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db.models.signals import post_save
+
 
 
 # Create your models here.
@@ -17,17 +20,23 @@ class Profile(models.Model):
     def save_profile(self):
         self.save()   
 
+    def delete_profile(self):
+        self.delete()
+        
 
 class Rating(models.Model):
-    design = models.IntegerField(default=0)
-    content = models.IntegerField(default=0)
-    usability = models.IntegerField(default=0)
+    design = models.IntegerField(default=0,validators=[])
+    content = models.IntegerField(default=0,validators=[])
+    usability = models.IntegerField(default=0,validators=[])
 
     def __str__(self):
         return self.content
 
     def save_rating(self):
-        self.save()     
+        self.save() 
+
+    def delete_rating(self):
+        self.delete()        
 
 class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='projects')
@@ -42,6 +51,10 @@ class Project(models.Model):
         return  self.title
 
     def save_project(self):
-        self.save()    
+        self.save()  
+
+    def delete_project(self):
+        self.delete()    
+
 
 
