@@ -3,6 +3,9 @@ from .forms import RegisterForm,UpdateProfileForm,AddProjectForm
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.forms import UserCreationForm
 from .models import *
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializer import ProfileSerializer,ProjectSerializer
 
 # Create your views here.
 
@@ -88,5 +91,12 @@ def new_project(request):
             return redirect('home')
     else:
             form=AddProjectForm()
-    return render(request,'new_project.html',{'form':form})           
+    return render(request,'new_project.html',{'form':form}) 
+
+
+class ProfileList(APIView):
+    def get(self, request, format = None):
+        all_profile = Profile.objects.all()
+        serializers = ProfileSerializer(all_profile,many=True)
+        return Response(serializers.data)              
 
