@@ -78,5 +78,15 @@ def search_results(request):
 
 
 def new_project(request):
+    if request.method=='POST':
+        user=request.user
+        form=AddProjectForm(request.POST,request.FILES)
+        if form.is_valid():
+            project=form.save(commit=False)
+            project.user=user
+            project.save()
+            return redirect('home')
+    else:
+            form=AddProjectForm()
     return render(request,'new_project.html')           
 
