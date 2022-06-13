@@ -18,3 +18,8 @@ class ProjectTestCase(TestCase):
         self.assertTrue(isinstance(self.user,User))
         self.assertTrue(isinstance(self.project,Project))
         self.assertTrue(isinstance(self.rate,Rating))
+
+    def test_save(self):
+        self.user.save()
+        self.project.save_project()
+        self.rate.save_rating()    
