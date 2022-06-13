@@ -88,5 +88,5 @@ def new_project(request):
             return redirect('home')
     else:
             form=AddProjectForm()
-    return render(request,'new_project.html')           
+    return render(request,'new_project.html',{'form':form})           
 
