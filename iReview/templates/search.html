@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+{% if projects %}
+  <h2 class="text-center">Found {{projects|length}} result(s) of the searched title <b>{{message}}</b></h2>
+{% else %}
+  <h2 class="text-center">Found 0 results associated with the title <b>{{message}}</b></h2>
+{% endif %}
+</div>
+{% endblock %}
