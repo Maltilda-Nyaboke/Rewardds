@@ -9,6 +9,9 @@ urlpatterns =[
     path('update_profile/', views.update_profile, name='update_profile'),
     path('new_project/', views.new_project, name='new_project'),
     path('search/', views.search_results, name='search'),
-    path('logout/', views.logout, name='logout')
+    path('logout/', views.logout, name='logout'),
+    path('api/profile/', views.ProfileList(), name='')
+    path('api/project/', views.ProjectList(), name='')
+
     
 ]
