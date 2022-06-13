@@ -40,7 +40,7 @@ def logout_user(request):
     return redirect('login')   
 
 
-def profile(request):
+def profile(request,user_id):
     user = request.user.pk
     profile = Profile.objects.all()
     profile_image = Profile.objects.filter(user=request.user.pk)
