@@ -25,9 +25,9 @@ class Profile(models.Model):
         
 
 class Rating(models.Model):
-    design = models.IntegerField(default=0,validators=[])
-    content = models.IntegerField(default=0,validators=[])
-    usability = models.IntegerField(default=0,validators=[])
+    design = models.IntegerField(default=0,validators=[MinValueValidator(1),MaxValueValidator(10)])
+    content = models.IntegerField(default=0,validators=[MinValueValidator(1),MaxValueValidator(10)])
+    usability = models.IntegerField(default=0,validators=[MinValueValidator(1),MaxValueValidator(10)])
 
     def __str__(self):
         return self.content
