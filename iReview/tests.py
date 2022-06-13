@@ -22,4 +22,16 @@ class ProjectTestCase(TestCase):
     def test_save(self):
         self.user.save()
         self.project.save_project()
-        self.rate.save_rating()    
+        self.rate.save_rating() 
+
+        users = User.objects.all()
+        projects = Project.objects.all()
+        rates = Rating.objects.all()
+        
+        self.assertTrue(len(projects) > 0)
+        self.assertTrue(len(users) > 0)
+        self.assertTrue(len(rates) > 0)
+
+    def test_update(self):
+        self.user.save()
+        self.project.save_project()   
