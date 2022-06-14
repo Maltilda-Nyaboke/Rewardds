@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from .forms import RegisterForm,UpdateProfileForm,AddProjectForm,RatingForm
 from django.contrib.auth import login,authenticate,logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from .models import *
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -35,18 +35,20 @@ def register(request):
     return render(request,'register.html',{'form':form})  
 
 
-def login(request):
+def login_user(request):
+    form = AuthenticationForm()
+    context = {'form':form}
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect(request,'index.html')
+            return redirect('/')
         else:
-            return render(request,'/registration/login.html')  
+            return render(request,'registration/login.html',context)  
     else:
-        return render(request,'/registration/login.html')        
+        return render(request,'registration/login.html',context)        
 
 def logout_user(request):
     logout(request)
@@ -89,8 +91,9 @@ def search_results(request):
 
     return render(request, 'search.html', {"message":message})
 
-def project(request):
-    return render(request, 'project.html')
+def project(request,id):
+    project = Project.objects.get(id=id)
+    return render(request, 'project.html',{'project':project})
 
 def new_project(request):
     if request.method=='POST':
@@ -105,12 +108,12 @@ def new_project(request):
             form=AddProjectForm()
     return render(request,'new_project.html',{'form':form}) 
 
-def rating(request,project_id):
-    url = request.META.get('HTTP_REFERER')
-    if request.method == 'POST':
-            rating = Rating.objects.get(user__id=request.user.id, project__id=project_id)
-            form = RatingForm(request.POST, instance=rating)
-            form.save()   
+# def rating(request,project_id):
+#     url = request.META.get('HTTP_REFERER')
+#     if request.method == 'POST':
+#             rating = Rating.objects.get(user__id=request.user.id, project__id=project_id)
+#             form = RatingForm(request.POST, instance=rating)
+#             form.save()   
 
 
 class ProfileList(APIView):

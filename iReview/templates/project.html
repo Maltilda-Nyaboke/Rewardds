@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">{{project.title}}</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <img src="{{project.image.url}}"alt="{{project.title}}" style="width:18rem ;">
+            </div>
+            <div class="col-md-6">
+              <blockquote class="blockquote mt-5">
+                <p>{{project.description}}</p>
+                <a href=""><button class="btn" style="background-color:transparent ; border:1px solid grey ;">Rate</button></a>
+                </blockquote>
+            </div>
+          </div>
+          <blockquote class="blockquote mt-3">
+            <footer class="blockquote-footer">CREATED BY : <cite title="Source Title">{{user.username|upper}}</cite></footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
