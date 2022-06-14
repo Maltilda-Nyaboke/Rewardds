@@ -10,8 +10,18 @@ from .serializer import ProfileSerializer,ProjectSerializer
 # Create your views here.
 
 def home(request):
-    project = Project.objects.all()
-    return render(request,'index.html',{'project':project})
+    projects = Project.objects.all()
+    if request.method=='POST':
+        user=request.user
+        form=AddProjectForm(request.POST,request.FILES)
+        if form.is_valid():
+            project=form.save(commit=False)
+            project.user=user
+            project.save()
+            return redirect('home')
+    else:
+            form=AddProjectForm()
+    return render(request,'index.html',{'form':form,'projects':projects})
 
 
 def register(request):
@@ -79,6 +89,8 @@ def search_results(request):
 
     return render(request, 'search.html', {"message":message})
 
+def project(request):
+    return render(request, 'project.html')
 
 def new_project(request):
     if request.method=='POST':
@@ -93,7 +105,7 @@ def new_project(request):
             form=AddProjectForm()
     return render(request,'new_project.html',{'form':form}) 
 
-def rates(request,project_id):
+def rating(request,project_id):
     url = request.META.get('HTTP_REFERER')
     if request.method == 'POST':
             rating = Rating.objects.get(user__id=request.user.id, project__id=project_id)

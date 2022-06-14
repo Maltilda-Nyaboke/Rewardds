@@ -13,7 +13,7 @@ urlpatterns =[
     path('search/', views.search_results, name='search'),
     path('logout/', views.logout, name='logout'),
     path('api/profile/', views.ProfileList.as_view(), name=''),
-    path('api/project/', views.ProjectList.as_view(), name=''),
-
-    
+    path('api/project/', views.ProjectList.as_view(), name=''),  
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

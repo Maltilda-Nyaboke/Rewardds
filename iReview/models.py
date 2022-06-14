@@ -29,7 +29,7 @@ class Profile(models.Model):
 class Project(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='project')
     title = models.CharField(max_length=75)
-    image = models.ImageField(upload_to='media',null=False)
+    image = models.ImageField(upload_to='photos')
     description = models.TextField()
     url = models.URLField()
     posted = models.DateTimeField(auto_now_add=True)
