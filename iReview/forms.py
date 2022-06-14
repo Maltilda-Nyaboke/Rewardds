@@ -28,5 +28,5 @@ class UpdateProfileForm(ModelForm):
 class RatingForm(forms.ModelForm):
   class Meta:
     model = Rating
-    fields = ['design', 'usarbility', 'content']
+    fields = ['design', 'usability', 'content']
           
