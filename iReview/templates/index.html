@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
-
-
 {% block content %}
 <div class="container-fluid">
 <h3>Rainbow</h3>
+{% for project in projects %}
 <h2>{{project.title}}</h2>
+<h2>{{project.description}}</h2>
 
+{% endfor %}
 </div>
 {% endblock %}

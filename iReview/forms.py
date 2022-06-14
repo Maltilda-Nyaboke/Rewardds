@@ -23,3 +23,10 @@ class UpdateProfileForm(ModelForm):
     class Meta():
         model = Profile
         fields = ['profile_photo','bio','contact']
+
+
+class RatingForm(forms.ModelForm):
+  class Meta:
+    model = Rating
+    fields = ['design', 'usarbility', 'content']
+          

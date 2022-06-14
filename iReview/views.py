@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .forms import RegisterForm,UpdateProfileForm,AddProjectForm
+from .forms import RegisterForm,UpdateProfileForm,AddProjectForm,RatingForm
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.forms import UserCreationForm
 from .models import *
@@ -92,6 +92,13 @@ def new_project(request):
     else:
             form=AddProjectForm()
     return render(request,'new_project.html',{'form':form}) 
+
+def rates(request,project_id):
+    url = request.META.get('HTTP_REFERER')
+    if request.method == 'POST':
+            rating = Rating.objects.get(user__id=request.user.id, project__id=project_id)
+            form = RatingForm(request.POST, instance=rating)
+            form.save()   
 
 
 class ProfileList(APIView):
