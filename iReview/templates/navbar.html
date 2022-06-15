@@ -1,37 +1,60 @@
-
-<div class="collapse" id="navbarToggleExternalContent">
-    <div class="bg-dark p-4">
-      <h5 class="text-white h4">Home</h5>
-      <input
-        type="search"
-        class="form-control rounded"
-        placeholder="Search"
-        aria-label="Search"
-        aria-describedby="search-addon"
-      />
-      <span class="input-group-text text-white border-0" id="search-addon">
-        <i class="fas fa-search"></i>
-      </span>
-      <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdownMenuLink">
-        <a class="dropdown-item text-center" href="api/profile/">Profile</a>
-        <hr>
-        <a class="dropdown-item text-center" href="api/project/"> Projects</a>
-        <hr>
+<nav class="navbar bg-dark scroll">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+      aria-controls="offcanvasNavbar">
+      <span class="navbar-toggler-icon bg-outline-light"></span>
+    </button>
+    <form class="d-flex" role="search" style="margin-left:250px;">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-light" type="submit">Search</button>
+    </form>
+    <div class="class-buttons" style="margin-left:80px;">
+      <a href="{% url 'login' %}"><button type="button" class="btn btn-outline-light">Login</button></a>
+     <a href="{% url 'register' %}"><button type="button" class="btn btn-outline-light" style="margin-left: 20px;">Sign Up</button></a>
     </div>
+
+    <ul>
+      <li class="nav-item dropdown" style="list-style:none;margin-right: 40px;">
+        <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button"
+          data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fas fa-user"></i>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
+          <li><a class="dropdown-item" href="#">{{user.username}}</a></li>
+          <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">iReview</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="offcanvasNavbarDropdown" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              APIs
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="offcanvasNavbarDropdown">
+              <li><a class="dropdown-item" href="api/project">Project</a></li>
+              <li><a class="dropdown-item" href="api/profile">Profile</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+      </div>
     </div>
   </div>
-  <nav class="navbar navbar-dark bg-dark">
-    <div class="container-fluid">
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-mdb-toggle="collapse"
-        data-mdb-target="#navbarToggleExternalContent"
-        aria-controls="navbarToggleExternalContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <i class="fas fa-bars"></i>
-      </button>
-    </div>
-  </nav>
+</nav>

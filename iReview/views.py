@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render,redirect
 from .forms import RegisterForm,UpdateProfileForm,AddProjectForm,RatingForm
 from django.contrib.auth import login,authenticate,logout
@@ -55,18 +56,20 @@ def logout_user(request):
     return redirect('login')   
 
 
-def profile(request,user_id):
+def profile(request):
     user = request.user.pk
-    profile = Profile.objects.all()
+    profile = User.objects.all()
     profile_image = Profile.objects.filter(user=request.user.pk)
-    return render(request,'profile.html')   
+    projects = Project.objects.all()
+    context = {'profile': profile, 'profile_image':profile_image,'projects': projects}
+    return render(request,'profile.html',context)   
 
 def update_profile(request):
     form = UpdateProfileForm()
+    user = request.user.id
+    profile = Profile.objects.get(user_id=user)
     if request.method == 'POST':
-        user = request.user.id
         form = UpdateProfileForm(request.POST,request.FILES)
-        profile = Profile.objects.get(user_id=user)
         if form.is_valid():
             profile.profile_photo = form.cleaned_data.get('profile_photo')
             profile.bio = form.cleaned_data.get('bio')
@@ -92,8 +95,36 @@ def search_results(request):
     return render(request, 'search.html', {"message":message})
 
 def project(request,id):
-    project = Project.objects.get(id=id)
-    return render(request, 'project.html',{'project':project})
+    form = RatingForm()
+    project = Project.objects.filter(id=id).first()
+    ratings = Rating.objects.filter(user=request.user,id=id).first()
+    rating_status = None
+    if rating_status is None:
+        rating_status = False
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rate = form.save(commit=False)
+            rate.user = request.user
+            rate.project = project
+            rate.save()
+            project_ratings = Rating.objects.filter(project=project)
+            design_ratings = [d.design for d in project_ratings]
+            design_average = sum(design_ratings) / len(design_ratings)
+            usability_ratings = [us.usability for us in project_ratings] 
+            usability_average = sum(usability_ratings) / len(usability_ratings)
+            content_ratings = [content.content for content in project_ratings]
+            content_average = sum(content_ratings) / len(content_ratings)
+            score = (design_average + usability_average + content_average) / 3
+            print(score)
+            rate.design_average = round(design_average, 2)
+            rate.usability_average = round(usability_average, 2)
+            rate.content_average = round(content_average, 2)
+            rate.score = round(score, 2)
+            rate.save()
+            return HttpResponseRedirect(request.path_info)   
+    context = {'project':project, 'ratings':ratings,'form':form}    
+    return render(request, 'project.html',context)
 
 def new_project(request):
     if request.method=='POST':
@@ -111,9 +142,9 @@ def new_project(request):
 # def rating(request,project_id):
 #     url = request.META.get('HTTP_REFERER')
 #     if request.method == 'POST':
-#             rating = Rating.objects.get(user__id=request.user.id, project__id=project_id)
-#             form = RatingForm(request.POST, instance=rating)
-#             form.save()   
+#         rating = Rating.objects.get(user__id=request.user.id, project__id=project_id)
+#         form = RatingForm(request.POST, instance=rating)
+#         form.save()   
 
 
 class ProfileList(APIView):

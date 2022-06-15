@@ -49,26 +49,37 @@ class Project(models.Model):
 
 
 class Rating(models.Model):
-    project = models.ForeignKey(Project, on_delete= models.CASCADE,related_name="rating")
-    design = models.IntegerField(default=0,validators=[MinValueValidator(1),MaxValueValidator(10)])
-    content = models.IntegerField(default=0,validators=[MinValueValidator(1),MaxValueValidator(10)])
-    usability = models.IntegerField(default=0,validators=[MinValueValidator(1),MaxValueValidator(10)])
-    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
-    average_rate = models.IntegerField(default=0,validators=[MinValueValidator(1),MaxValueValidator(10)])
+    rating = (
+        (1, '1'),
+        (2, '2'),
+        (3, '3'),
+        (4, '4'),
+        (5, '5'),
+        (6, '6'),
+        (7, '7'),
+        (8, '8'),
+        (9, '9'),
+        (10, '10'),
+    )
 
+    design = models.IntegerField(choices=rating, default=0, blank=True)
+    usability = models.IntegerField(choices=rating, blank=True)
+    content = models.IntegerField(choices=rating, blank=True)
+    score = models.FloatField(default=0, blank=True)
+    design_average = models.FloatField(default=0, blank=True)
+    usability_average = models.FloatField(default=0, blank=True)
+    content_average = models.FloatField(default=0, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='rater')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='ratings', null=True)
 
     def save_rating(self):
-        self.save() 
-
-    def delete_rating(self):
-        self.delete()    
+        self.save()
 
     @classmethod
-    def filter_by_id(cls, id):
-        rating = Rating.objects.filter(id=id).first()
-        return  rating  
+    def get_ratings(cls, id):
+        ratings = Rating.objects.filter(post_id=id).all()
+        return ratings
 
     def __str__(self):
-        return self.content         
-
+        return f'{self.project} Rating'
 
