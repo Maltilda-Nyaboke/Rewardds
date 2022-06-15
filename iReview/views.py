@@ -101,6 +101,8 @@ def project(request,id):
     rating_status = None
     if rating_status is None:
         rating_status = False
+    else:
+        rating_status = True    
     if request.method == 'POST':
         form = RatingForm(request.POST)
         if form.is_valid():
@@ -123,7 +125,7 @@ def project(request,id):
             rate.score = round(score, 2)
             rate.save()
             return HttpResponseRedirect(request.path_info)   
-    context = {'project':project, 'ratings':ratings,'form':form}    
+    context = {'project':project, 'ratings':ratings,'form':form,'rating_status':rating_status}    
     return render(request, 'project.html',context)
 
 def new_project(request):
