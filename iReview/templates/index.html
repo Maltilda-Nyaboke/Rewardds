@@ -2,14 +2,14 @@
 {% load static %}
 {% block content %}
 <div class="container-fluid">
-  <img src="{% static 'images/landing.jpg'  %}" class="img-responsive" alt="landing" height="70vh">
+  <img src="{% static 'images/landing.jpg'  %}" class="img-responsive" alt="landing" style="height:70vh; width:100%;">
   <h3>yellow</h3>
 <div class="container">
     <div class="row">
       {% for project in projects %}
         <div class="col-md-3 mt-5" >
             <div class="card" style="width: 18rem;">
-                <img src="{{project.image.url}}" class="card-img-top" alt="{{project.title}}" style="height: 12rem;">
+                <img src="{{project.image.url}}" class="card-img-top" alt="{{project.title}}" style="height:20rem;">
                 <div class="card-body">
                   <h5 class="card-title">{{project.title}}</h5>
                   <p class="card-text">By: {{user.username}}</p>

@@ -18,29 +18,7 @@
                 <div class="col-md-5 border border-1 p-3">
                   <div class="row">
                     <div class="col-md-2"></div>
-                    <div class="col-md-8">
-                      <h3 class="text-center">Rate</h3>
-                      {% for rating in project.ratings.all %}
-                      {% if forloop.counter is project.ratings.all.count %}
-                      <a class="btn btn-outline-info">
-                        <h5>{{ rating.score }}</h5>
-                        <span class="sc">Average Score</span>
-                      </a>
-                      <a class="btn btn-outline-success">
-                        <h5>{{ rating.design_average }}</h5>
-                        <span class="sc">Design Average</span>
-                      </a>
-                      <a class="btn btn-outline-primary" id="u">
-                        <h5>{{ rating.usability_average }}</h5>
-                        <span class="sc">Usability Average</span>
-                      </a>
-                      <a class="btn btn-outline-danger" id="c">
-                        <h5>{{ rating.content_average }}</h5>
-                        <span class="sc">Content Average</span>
-                      </a>
-                      {% endif %}
-                      {% endfor %}
-                    </div>
+                  
                     <div class="col-md-2"></div>
                   </div>
                   <a href=""><button class="btn"
@@ -49,6 +27,35 @@
             </div>
           </div>
           <blockquote class="blockquote mt-3">
+            <div class="col-md-8">
+              <h3 class="text-center">Rate</h3>
+              <div class="row">
+              {% for rating in project.ratings.all %}
+              {% if forloop.counter is project.ratings.all.count %}
+              <div class="col-md-4">
+                <h5 class="text-center" style="border:5px solid red ;border-radius: 50%; width: 50%;height: 60%;margin-top: 10px;">{{ rating.score }}</h5>
+                <p>Average</p>
+              </div>
+              <div class="col-md-4">
+                <h5>{{ rating.design_average }}</h5>
+                <p>Design</p>
+              </div>
+              <div class="col-md-4"></div>
+
+                
+              </a>
+                
+              </a>
+                <h5>{{ rating.usability_average }}</h5>
+                <span class="sc">Usability</span>
+              </a>
+                <h5>{{ rating.content_average }}</h5>
+                <span class="sc">Content Average</span>
+              </a>
+              {% endif %}
+              {% endfor %}
+            </div>
+            </div>
             <footer class="blockquote-footer">CREATED BY : <cite title="Source Title">{{user.username|upper}}</cite>
             </footer>
           </blockquote>
