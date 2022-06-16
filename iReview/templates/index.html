@@ -3,19 +3,18 @@
 {% block content %}
 <div class="container-fluid">
   <img src="{% static 'images/landing.jpg'  %}" class="img-responsive" alt="landing" style="height:70vh; width:100%;">
-  <h3>yellow</h3>
 <div class="container">
     <div class="row">
       {% for project in projects %}
-        <div class="col-md-3 mt-5" >
+        <div class="col-md-4 mt-5" >
             <div class="card" style="width: 18rem;">
-                <img src="{{project.image.url}}" class="card-img-top" alt="{{project.title}}" style="height:20rem;">
+                <img src="{{project.image.url}}" class="card-img-top" alt="{{project.title}}">
                 <div class="card-body">
                   <h5 class="card-title">{{project.title}}</h5>
-                  <p class="card-text">By: {{user.username}}</p>
+                  <p class="card-text">{{user.username.id}}</p>
                 </div>
                 <div class="text-muted d-flex">
-                  <a href="{% url 'project' project.id %}"class="card-link">Visit site</a>
+                  <a href="{% url 'project' project.id %}"class="card-link">View Ratings</a>
                   <p class="card-link">{{project.posted|date}}</a>
                 </div>
               </div>

@@ -11,52 +11,40 @@
           <div class="row">
             <div class="col-md-6">
               <img src="{{project.image.url}}" alt="{{project.title}}" style="width:18rem ;">
+              <div class="col-md-8">
+                <div class="row">
+                {% for rating in project.ratings.all %}
+                {% if forloop.counter is project.ratings.all.count %}
+                <div class="card" style="width: 18rem;">
+                  <div class="card-header">
+                    <b>RATINGS</b>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Design:{{rating.design_average}}</li>
+                    <li class="list-group-item">Usability:{{rating.usability_average}}</li>
+                    <li class="list-group-item">Content:{{rating.content_average}}</li>
+                  </ul>
+                </div>
+                {% endif %}
+                {% endfor %}
+              </div>
+              </div>
             </div>
             <div class="col-md-6">
               <blockquote class="blockquote mt-5">
                 <p>{{project.description}}</p>
-                <div class="col-md-5 border border-1 p-3">
                   <div class="row">
                     <div class="col-md-2"></div>
                   
                     <div class="col-md-2"></div>
                   </div>
-                  <a href=""><button class="btn"
-                      style="background-color:transparent ; border:1px solid grey ;">Rate</button></a>
-              </blockquote>
+                  <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    Rate
+                  </button>              </blockquote>
             </div>
           </div>
-          <blockquote class="blockquote mt-3">
-            <div class="col-md-8">
-              <h3 class="text-center">Rate</h3>
-              <div class="row">
-              {% for rating in project.ratings.all %}
-              {% if forloop.counter is project.ratings.all.count %}
-              <div class="col-md-4">
-                <h5 class="text-center" style="border:5px solid red ;border-radius: 50%; width: 50%;height: 60%;margin-top: 10px;">{{ rating.score }}</h5>
-                <p>Average</p>
-              </div>
-              <div class="col-md-4">
-                <h5>{{ rating.design_average }}</h5>
-                <p>Design</p>
-              </div>
-              <div class="col-md-4"></div>
-
-                
-              </a>
-                
-              </a>
-                <h5>{{ rating.usability_average }}</h5>
-                <span class="sc">Usability</span>
-              </a>
-                <h5>{{ rating.content_average }}</h5>
-                <span class="sc">Content Average</span>
-              </a>
-              {% endif %}
-              {% endfor %}
-            </div>
-            </div>
-            <footer class="blockquote-footer">CREATED BY : <cite title="Source Title">{{user.username|upper}}</cite>
+          <blockquote class="blockquote mt-5">
+            <footer class="blockquote-footer"><b>Link:</b><cite title="Source Title">{{project.url}}</cite>
             </footer>
           </blockquote>
         </div>
@@ -71,12 +59,7 @@
       <p>You have already voted</p>
       {% else %}
       <div class="col-md-6 mt-5">
-        <form action="" method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-          {{form|crispy}}
-          <button type="submit" class="btn btn-dark">Rate</button>
-
-        </form>
+        
       </div>
       {% endif %}
       <div class="col-md-3"></div>
@@ -84,5 +67,28 @@
     </div>
   </div>
 </div>
+<!-- Button trigger modal -->
 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Ratings</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{form|crispy}}
+          <button type="submit" class="btn btn-dark mt-2">Submit</button>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

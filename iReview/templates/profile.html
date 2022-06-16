@@ -3,21 +3,21 @@
 {% block content %}
 <div class="container">
     <div class="row" style="margin-top:100px;">
-    
         <div class="col-md-2">
             <div class="row" >
-            <img src="{{project.profile.profile_photo.url}}" class="img-thumbnail" alt="{{project.title}}" style="border-radius: 50%; height: 150px;width:150px;">
+            <img src="{{user.profile.profile_photo.url}}" class="img-thumbnail" alt="{{project.title}}" style="border-radius: 50%; height: 150px;width:150px;">
             <h3 class="">{{user.username}}</h3>
-            <p>{{profile.bio}}</p>
+            <p>{{user.profile.bio}}</p>
         </div>
         </div>
         <div class="col-md-10">
            <a href="{% url 'update_profile' %}"><button class="btn" style="background-color:black; color: white; margin-top: 100px;">Edit profile</button></a> 
 
-            <div class="row" style="margin-top:100px ;">
-                {% for image in images %}
-                <div class="col-md-3">
-                    <img src="{{ project.image.url }}" alt=""style="width:200px;height:200px;">
+            <div class="row" style="margin:100px ;">
+                {% for project in projects %}
+                <div class="col-md-4">
+                    <img src="{{project.image.url }}" alt=""style="width:200px;height:200px;">
+                    <h3>{{ project.title }}</h3>
                 </div>
                 {% endfor %}
                 

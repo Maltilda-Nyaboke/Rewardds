@@ -3,6 +3,7 @@ from django.shortcuts import render,redirect
 from .forms import RegisterForm,UpdateProfileForm,AddProjectForm,RatingForm
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from .models import *
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -50,24 +51,24 @@ def login_user(request):
             return render(request,'registration/login.html',context)  
     else:
         return render(request,'registration/login.html',context)        
-
+@login_required
 def logout_user(request):
     logout(request)
     return redirect('login')   
 
-
+@login_required
 def profile(request):
     user = request.user.pk
-    profile = User.objects.all()
-    profile_image = Profile.objects.filter(user=request.user.pk)
-    projects = Project.objects.all()
-    context = {'profile': profile, 'profile_image':profile_image,'projects': projects}
+    # profile = Profile.objects.all()
+    profile = Profile.objects.filter(user=request.user.pk)
+    projects = Project.objects.filter(user=request.user.pk)
+    context = {'profile': profile,'projects': projects}
     return render(request,'profile.html',context)   
 
 def update_profile(request):
     form = UpdateProfileForm()
-    user = request.user.id
-    profile = Profile.objects.get(user_id=user)
+    user = request.user
+    profile = Profile.objects.get(user=user)
     if request.method == 'POST':
         form = UpdateProfileForm(request.POST,request.FILES)
         if form.is_valid():
@@ -78,7 +79,7 @@ def update_profile(request):
         else:
             form = UpdateProfileForm()    
     return render(request,'update_profile.html',{'form':form})    
-
+@login_required
 def search_results(request):
   form=AddProjectForm()
   if 'search' in request.GET and request.GET['search']:
@@ -93,7 +94,7 @@ def search_results(request):
     message = "You have not yet made a search"
 
     return render(request, 'search.html', {"message":message})
-
+@login_required
 def project(request,id):
     form = RatingForm()
     project = Project.objects.filter(id=id).first()
@@ -127,7 +128,7 @@ def project(request,id):
             return HttpResponseRedirect(request.path_info)   
     context = {'project':project, 'ratings':ratings,'form':form,'rating_status':rating_status}    
     return render(request, 'project.html',context)
-
+@login_required
 def new_project(request):
     if request.method=='POST':
         user=request.user
@@ -140,14 +141,6 @@ def new_project(request):
     else:
             form=AddProjectForm()
     return render(request,'new_project.html',{'form':form}) 
-
-# def rating(request,project_id):
-#     url = request.META.get('HTTP_REFERER')
-#     if request.method == 'POST':
-#         rating = Rating.objects.get(user__id=request.user.id, project__id=project_id)
-#         form = RatingForm(request.POST, instance=rating)
-#         form.save()   
-
 
 class ProfileList(APIView):
     def get(self, request, format = None):
