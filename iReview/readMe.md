@@ -79,6 +79,9 @@ The following languages have been used on this project:
 
 - Live link to view the project <a target="_blank" href="">View</a>
 
+## Administrator credentials
+- username :maltilda
+- password : Access
 
 
     
