@@ -1,27 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="container-fluid">
-  <img src="{% static 'images/landing.jpg'  %}" class="img-responsive" alt="landing" style="height:70vh; width:100%;">
-<div class="container">
+<div class="container-fluid bg-dark mt-2" style=" height: 70vh;color: white;">
+  <p class="text-white">Site of the day</p>
+  <div class="pt-5 mt-5 pb-5 mb-5">
+    <h4 class="text-center">{{new_project.title|upper}}</h4>
+    <p class="text-center">By :<span class="text-info">{{new_project.user.username }}</span></p>
     <div class="row">
-      {% for project in projects %}
-        <div class="col-md-4 mt-5" >
-            <div class="card" style="width: 18rem;">
-                <img src="{{project.image.url}}" class="card-img-top" alt="{{project.title}}">
-                <div class="card-body">
-                  <h5 class="card-title">{{project.title}}</h5>
-                  <p class="card-text">{{user.username.id}}</p>
-                </div>
-                <div class="text-muted d-flex">
-                  <a href="{% url 'project' project.id %}"class="card-link">View Ratings</a>
-                  <p class="card-link">{{project.posted|date}}</a>
-                </div>
-              </div>
-              
-        </div>
-        {% endfor %}
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+      <form class="d-flex" role="search" action="{% url 'search' id %}" method="get">
+        <input name="query" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" >
+        <button class="btn btn-outline-light" type="submit">Search</button>
+      </form>
     </div>
+    <div class="col-md-4"></div>
+  </div>
 </div>
 </div>
+<div class="container">
+  <div class="row">
+    {% for project in projects %}
+    <div class="col-md-4 mt-5">
+      <div class="card" style="width: 18rem;">
+        <img src="{{project.image.url}}" class="card-img-top" alt="{{project.title}}">
+        <div class="card-body">
+          <h5 class="card-title">{{project.title}}</h5>
+          <p class="card-text">{{user.username.id}}</p>
+        </div>
+        <div class="text-muted d-flex">
+          <a href="{% url 'project' project.id %}" class="card-link">View Ratings</a>
+          <p class="card-link">{{project.posted|date}}</a>
+        </div>
+      </div>
+
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
 {% endblock %}

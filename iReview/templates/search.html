@@ -2,28 +2,36 @@
 
 {% block content %}
 
-<div>
-    {% if projects %}
-    <h2 class="text-center">Found {{projects|length}} result(s) of the searched title <b>{{message}}</b></h2>
-    {% else %}
-    <h2 class="text-center">Found 0 results associated with the title <b>{{message}}</b></h2>
-    {% endif %}
-</div>
-
 <div class="container">
-
-    <div class="row text-center">
-        {% if projects %}
-        {% for project in projects %}
-        <div class="col-xs-6 col-md-3 my-3">
-            <a href="{% url 'projectdetails' project_id=project.id%}" class="thumbnail">
-                <p><em>{{project.title}}</em></p>
-                <img src="{{project.image.url}}" class="img-fluid" alt="Project Display Screenshot">
-            </a>
+    {%if projects %}
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            {%for project in projects %}
+            <div class="card mb-3 mt-5">
+                <div class="card-header bg">
+                    {%if project.user.profile_photo%}
+                    <img src="{{user.profile.profile_photo.url}}" class='rounded-circle border ml-3 mt-2' alt="" width="35" height="35">
+                    {%else%}
+                    <div></div>
+                    {%endif%}
+                    <div class="float-end"><a class='text-decoration-none text-dark' href="{%url 'project' project.id%}">See more</a></div>
+                    <small class="text-bold">{{project.user.username}}</small>
+                </div>
+                <img src="{{project.image.url}}" class="main-img card-img-top" alt="Image">
+            </div>
+            {%endfor%}
         </div>
-        {% endfor %}
-        {% endif %}
+        <div class="col-md-2"></div>
+
+
+    
+    {%else%}
+    <div class=" text-center  p-5" style="margin-bottom:450px">
+        <h3>Sorry we have no results for your search!!</h3>
     </div>
+    {%endif%}
+</div>
 </div>
 
 {% endblock %}

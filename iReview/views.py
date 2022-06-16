@@ -1,9 +1,11 @@
+from hashlib import new
 from django.http import HttpResponseRedirect
 from django.shortcuts import render,redirect
 from .forms import RegisterForm,UpdateProfileForm,AddProjectForm,RatingForm
 from django.contrib.auth import login,authenticate,logout
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from .models import *
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,6 +15,8 @@ from .serializer import ProfileSerializer,ProjectSerializer
 
 def home(request):
     projects = Project.objects.all()
+    new_project = Project.objects.last()
+
     if request.method=='POST':
         user=request.user
         form=AddProjectForm(request.POST,request.FILES)
@@ -23,7 +27,7 @@ def home(request):
             return redirect('home')
     else:
             form=AddProjectForm()
-    return render(request,'index.html',{'form':form,'projects':projects})
+    return render(request,'index.html',{'form':form,'projects':projects,'new_project':new_project})
 
 
 def register(request):
@@ -64,7 +68,7 @@ def profile(request):
     projects = Project.objects.filter(user=request.user.pk)
     context = {'profile': profile,'projects': projects}
     return render(request,'profile.html',context)   
-
+@login_required
 def update_profile(request):
     form = UpdateProfileForm()
     user = request.user
@@ -81,19 +85,13 @@ def update_profile(request):
     return render(request,'update_profile.html',{'form':form})    
 @login_required
 def search_results(request):
-  form=AddProjectForm()
-  if 'search' in request.GET and request.GET['search']:
-    
-    title_search = request.GET.get('search')
-    print(title_search)
-    searched_projects = Project.search_by_title(title_search)
-  
-    message = f"{title_search}"
-    return render(request, 'search.html', {"message":message, "projects":searched_projects,"form":form})
-  else:
-    message = "You have not yet made a search"
-
-    return render(request, 'search.html', {"message":message})
+    query = request.GET.get('query')
+    if query:
+        projects = Project.objects.filter(
+            Q(title__icontains=query)
+        )
+        context = {'projects': projects}
+        return render(request,'search.html',context)
 @login_required
 def project(request,id):
     form = RatingForm()
